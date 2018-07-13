@@ -23,6 +23,7 @@ guilds.defer.then(() => {
 			let cmdFile;
 			try {
 				cmdFile = require(`./commands/${cmd}.js`);
+				console.log(`${msg.author} ran the ${cmd} command in ${msg.guild.name}.`);
 			} catch (err) {
 				return console.error(`There seems to have been an error completing the ${cmd} command, take a look: \n ${err}`);
 			}
