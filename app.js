@@ -3,8 +3,8 @@ const enmap = require('enmap');
 const EnmapMongo = require('enmap-mongo');
 const client = new Discord.Client();
 const settings = require('./settings.json');
-const guilds = new enmap({provider: new EnmapMongo({name: 'guilds', dbName: 'Bloxclient'})});
-const groups = new enmap({provider: new EnmapMongo({name: 'groups', dbName: 'Bloxclient'})});
+const guilds = new enmap({provider: new EnmapMongo({name: 'guilds', dbName: 'BloxBot'})});
+const groups = new enmap({provider: new EnmapMongo({name: 'groups', dbName: 'BloxBot'})});
 
 guilds.defer.then(() => {
 	groups.defer.then(() => {
@@ -20,6 +20,13 @@ guilds.defer.then(() => {
 			if (msg.author.bot) return null;
 			if (!msg.content.startsWith(prefix)) return null;
 			if (!msg.guild) return;
+			client.guilds.forEach(g => {
+				if (!guilds.get(g.id)) {
+				  guilds.set(g.id,{
+					  prefix: "?"
+				  });
+				}
+			  });
 			const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
 			const suffix = msg.content.split(" ").splice(1).join(" ").trim();
 			let cmdFile;
