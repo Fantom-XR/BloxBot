@@ -13,6 +13,8 @@ guilds.defer.then(() => {
 			client.user.setActivity(`in ${client.guilds.size} servers | Prefix: ${settings.prefix}`);
 		});
 		
+		// Command Handler by SunburntRock89 (https://github.com/SunburntRock89)
+		
 		client.on("message", async msg => {
 			let prefix = settings.prefix;
 			if (msg.author.bot) return null;
@@ -23,7 +25,7 @@ guilds.defer.then(() => {
 			let cmdFile;
 			try {
 				cmdFile = require(`./commands/${cmd}.js`);
-				console.log(`${msg.author} ran the ${cmd} command in ${msg.guild.name}.`);
+				console.log(`${msg.author.tag} (${msg.author.id}) ran the ${cmd} command in ${msg.guild.name}.`);
 			} catch (err) {
 				return console.error(`There seems to have been an error completing the ${cmd} command, take a look: \n ${err}`);
 			}
