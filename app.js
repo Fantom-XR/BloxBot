@@ -1,20 +1,29 @@
-const Discord = require('discord.js');
-const enmap = require('enmap');
-const EnmapMongo = require('enmap-mongo');
+const Discord = require("discord.js");
+const enmap = require("enmap");
+const EnmapMongo = require("enmap-mongo");
 const client = new Discord.Client();
-const settings = require('./settings.json');
-const guilds = new enmap({provider: new EnmapMongo({name: 'guilds', dbName: 'BloxBot'})});
-const groups = new enmap({provider: new EnmapMongo({name: 'groups', dbName: 'BloxBot'})});
+const settings = require("./settings.json");
+const guilds = new enmap({ provider: new EnmapMongo({ name: "guilds", dbName: "BloxBot" }) });
+const groups = new enmap({ provider: new EnmapMongo({ name: "groups", dbName: "BloxBot" }) });
+
+// Again, credit to SunburntRock89 for this code snippet
+
+Object.assign(String.prototype, {
+	escapeRegex() {
+		const matchOperators = /[|\\{}()[\]^$+*?.]/g;
+		return this.replace(matchOperators, "\\$&");
+	},
+});
 
 guilds.defer.then(() => {
 	groups.defer.then(() => {
-		client.on('ready', () => {
+		client.on("ready", () => {
 			console.log(`Ready. Logged in as ${client.user.tag}. (ID: ${client.user.id})`);
 			client.user.setActivity(`in ${client.guilds.size} servers | Prefix: ${settings.prefix}`);
 		});
-		
+
 		// Command Handler by SunburntRock89 (https://github.com/SunburntRock89)
-		
+
 		client.on("message", async msg => {
 			let prefix = settings.prefix;
 			if (msg.author.bot) return null;
@@ -22,13 +31,19 @@ guilds.defer.then(() => {
 			if (!msg.guild) return;
 			client.guilds.forEach(g => {
 				if (!guilds.get(g.id)) {
-				  guilds.set(g.id,{
-					  prefix: "?"
-				  });
+					guilds.set(g.id, {
+						prefix: "?",
+					});
 				}
-			  });
+			});
+			groups.forEach(() => {
+				groups.set(msg.guild.id, {
+					id: "No ID provided",
+				});
+			});
 			const cmd = msg.content.split(" ")[0].trim().toLowerCase().replace(prefix, "");
-			const suffix = msg.content.split(" ").splice(1).join(" ").trim();
+			const suffix = msg.content.split(" ").splice(1).join(" ")
+				.trim();
 			let cmdFile;
 			try {
 				cmdFile = require(`./commands/${cmd}.js`);
@@ -40,7 +55,7 @@ guilds.defer.then(() => {
 				return cmdFile(client, msg, suffix);
 			}
 		});
-		
+
 		client.login(settings.token);
 	});
 });
