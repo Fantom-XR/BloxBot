@@ -5,10 +5,17 @@ module.exports = async(client, msg, suffix) => {
 	/*
 		Eval Command by SunburntRock89 (https://github.com/SunburntRock89)
 	*/
+	const embed1 = new Discord.RichEmbed();
+	if (msg.author.id !== "357583052525928449") {
+		embed1.setDescription("You don't have permissions to run this command! ⚠️")
+			.setColor("#FF6347");
+		return msg.channel.send({ embed: embed1 });
+	}
+
 	try {
-		const embed1 = new Discord.RichEmbed();
 		const embed2 = new Discord.RichEmbed();
 		const embed3 = new Discord.RichEmbed();
+		const embed4 = new Discord.RichEmbed();
 		if (suffix.startsWith("```js") && suffix.endsWith("```")) suffix = suffix.substring(5, suffix.length - 3);
 		const asyncify = code => `(async () => {\nreturn ${code.trim()}\n})()`;
 		let result = await eval(asyncify(suffix));
@@ -20,12 +27,7 @@ module.exports = async(client, msg, suffix) => {
 		const regex = new RegExp(array.join("|"), "g");
 		result = result.replace(regex, "Nice try.");
 		if (suffix.length == 0) {
-			embed1.setDescription("You need to input something to evaluate!")
-				.setColor("#FF6347");
-			return msg.channel.send({ embed: embed1 });
-		}
-		if (msg.author.id !== "357583052525928449") {
-			embed2.setDescription("You don't have permissions to run this command! ⚠️")
+			embed2.setDescription("You need to input something to evaluate!")
 				.setColor("#FF6347");
 			return msg.channel.send({ embed: embed2 });
 		}
