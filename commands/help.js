@@ -7,6 +7,7 @@ module.exports = async(client, msg, suffix) => {
 	.setDescription("Here is a list of commands that BloxBot has.")
 	.addField("ping", "Tests the ping connection of the bot with a milliseconds value.", true)
 	.addField("help", "DMs you this list of commands.", true)
+	.addField("getrole", "Gets the role of a particular user in any Roblox group.", true)
 	.setColor("#00BFFF")
 	.setThumbnail(client.user.avatarURL)
 	msg.author.send({embed});
