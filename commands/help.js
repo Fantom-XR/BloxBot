@@ -5,11 +5,13 @@ module.exports = async(client, msg, suffix) => {
 	const DMs = new Discord.RichEmbed();
 	embed.setTitle("BloxBot Help Menu")
 		.setDescription("Here is a list of commands that BloxBot has.")
-		.addField("ping", "Tests the ping connection of the bot with a milliseconds value.", true)
-		.addField("help", "DMs you this list of commands.", true)
-		.addField("getrole", "Gets the role of a particular user in any Roblox group.", true)
-		.addField("interview", "Allows you to store basic information about an interview.", true)
-		.addField("eval", "Allows you to evaluate JavaScript code. **Developers Only**", true)
+		.addField("ping", "Tests the ping connection of the bot with a milliseconds value. `?ping`", true)
+		.addField("help", "DMs you this list of commands. `?help`", true)
+		.addField("getrole", "Gets the role of a particular user in any Roblox group. `?getrole [user ID] [group ID]`", true)
+		.addField("interview", "Allows you to store basic information about an interview. `?interview`", true)
+		.addField("eval", "Allows you to evaluate JavaScript code. **Developers Only** `?eval [code]`", true)
+		.addField("ban", "Allows you to ban a certain user with a custom reason. `?ban [user] [reason]`", true)
+		.addField("kick", "Allows you to kick a certain user with a custom reason. `?kick [user] [reason]`", true)
 		.setColor("#00BFFF")
 		.setThumbnail(client.user.avatarURL);
 	msg.author.send({ embed });
