@@ -15,18 +15,18 @@ module.exports = async(client, msg, suffix) => {
 		let collector1 = msg.channel.createMessageCollector(newmsg => newmsg.author.id === msg.author.id);
 		collector1.on("collect", cmsg1 => {
 			if (cmsg1.content.includes("<" && ">")) {
-				question2.setDescription("Who is the co-host of this interview?\n Please mention the user.")
+				question2.setDescription("What is the game link?\n Please link the Roblox game link.")
 					.setColor("#00BFFF");
 				msg.channel.send({ embed: question2 }).then(ctx2 => {
 					let collector2 = msg.channel.createMessageCollector(newmsg => newmsg.author.id === msg.author.id);
 					collector2.on("collect", cmsg2 => {
-						if (cmsg2.content.includes("<" && ">")) {
+						if (cmsg2.content.includes("roblox")) {
 							finish.setDescription("Interview process complete. 👌")
 								.setColor("#00FA9A");
 							msg.channel.send({ embed: finish });
 							collector2.stop();
 						} else {
-							question2error.setDescription("You didn't mention a user!")
+							question2error.setDescription("You didn't link the roblox game!")
 								.setFooter("Please re-run the ?interview command and try again.")
 								.setColor("#FF6347");
 							msg.channel.send({ embed: question2error });
