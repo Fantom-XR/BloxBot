@@ -7,42 +7,48 @@ module.exports = async(client, msg, suffix) => {
 	const embed4 = new Discord.RichEmbed();
 	const embed5 = new Discord.RichEmbed();
 	const embed6 = new Discord.RichEmbed();
+	const embed7 = new Discord.RichEmbed();
 	let member = msg.mentions.members.first();
 	let reason = suffix.substring(suffix.indexOf(" ") + 1).trim();
-	if (!msg.member.roles.find("name", "Staff")) {
-		embed1.setDescription("You don't have permisson to run this command! ❌")
+	if (!msg.guild.roles.find("name", "Staff")) {
+		embed1.setDescription("You don't have a `Staff` role! Please create one in order to use moderation commands.")
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed1 });
 	}
-	if (msg.mentions.users.size == 0) {
-		embed2.setDescription("You need to mention a user! ❌")
+	if (!msg.member.roles.find("name", "Staff")) {
+		embed2.setDescription("You don't have permisson to run this command! ❌")
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed2 });
 	}
-	if (reason.length == 0) {
-		embed3.setDescription("You need to include a reason!")
+	if (msg.mentions.users.size == 0) {
+		embed3.setDescription("You need to mention a user! ❌")
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed3 });
 	}
-	embed4.setDescription(`Are you sure you want to ban **${member.user.username}**? 🚦`)
+	if (reason.length == 0) {
+		embed4.setDescription("You need to include a reason!")
+			.setColor("#FF6347");
+		return msg.channel.send({ embed: embed4 });
+	}
+	embed5.setDescription(`Are you sure you want to ban **${member.user.username}**? 🚦`)
 		.setColor("#FFA500");
 	/*
 		Again, Messaage Collector by Hydrogen (https://github.com/thehydrogen)
 	*/
-	msg.channel.send({ embed: embed4 }).then(ctx => {
+	msg.channel.send({ embed: embed5 }).then(ctx => {
 		let collector = msg.channel.createMessageCollector(newmsg => newmsg.author.id === msg.author.id);
 		collector.on("collect", cmsg => {
 			if (cmsg.content.toLowerCase() === "no") {
-				embed5.setDescription("Ban cancelled. ❌")
+				embed6.setDescription("Ban cancelled. ❌")
 					.setFooter("Please re-run the ?ban command if you change your mind.")
 					.setColor("#FF6347");
-				msg.channel.send({ embed: embed5 });
+				msg.channel.send({ embed: embed6 });
 				collector.stop();
 			}
 			if (cmsg.content.toLowerCase() === "yes") {
-				embed6.setDescription(`**${member.user.username}** is now banned. 🔨`)
+				embed7.setDescription(`**${member.user.username}** is now banned. 🔨`)
 					.setColor("#00FA9A");
-				msg.channel.send({ embed: embed6 });
+				msg.channel.send({ embed: embed7 });
 				member.ban();
 				collector.stop();
 			}
