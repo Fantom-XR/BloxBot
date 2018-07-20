@@ -9,15 +9,15 @@ module.exports = async(client, msg, suffix) => {
 	const embed6 = new Discord.RichEmbed();
 	const embed7 = new Discord.RichEmbed();
 	const embed8 = new Discord.RichEmbed();
+	const embed9 = new Discord.RichEmbed();
 	let member = msg.mentions.members.first();
-	let reason = suffix.split(" ").slice(1).join(" ");
-	if (!msg.guild.roles.find("name", "Staff")) {
-		embed1.setDescription("You don't have a `Staff` role! Please create one in order to use moderation commands.")
+	if (!msg.guild.roles.find("name", "Muted")) {
+		embed1.setDescription("You don't have a `Muted` role! Please create one in order to use the unmute command.")
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed1 });
 	}
-	if (!msg.member.roles.find("name", "Staff")) {
-		embed2.setDescription("You don't have permisson to run this command! ❌")
+	if (!msg.guild.roles.find("name", "Staff")) {
+		embed2.setDescription("You don't have a `Staff` role! Please create one in order to use moderation commands.")
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed2 });
 	}
@@ -26,37 +26,31 @@ module.exports = async(client, msg, suffix) => {
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed3 });
 	}
-	if (reason.length == 0) {
-		embed4.setDescription("You need to include a reason!")
-			.setColor("#FF6347");
-		return msg.channel.send({ embed: embed4 });
-	}
-	embed5.setDescription(`Are you sure you want to ban **${member.user.username}**? 🚦`)
+	embed5.setDescription(`Are you sure you want to unmute **${member.user.username}**? 🚦`)
 		.setColor("#FFA500");
 	/*
-		Again, Messaage Collector by Hydrogen (https://github.com/thehydrogen)
+		Yet again, Message Collector by Hydrogen (https://github.com/thehydrogen)
 	*/
 	msg.channel.send({ embed: embed5 }).then(ctx => {
 		let collector = msg.channel.createMessageCollector(newmsg => newmsg.author.id === msg.author.id);
 		collector.on("collect", cmsg => {
 			if (cmsg.content.toLowerCase() === "no") {
-				embed6.setDescription("Ban cancelled. ❌")
-					.setFooter("Please re-run the ?ban command if you change your mind.")
+				embed6.setDescription("Unmute cancelled. ❌")
+					.setFooter("Please re-run the ?unmute command if you change your mind.")
 					.setColor("#FF6347");
 				msg.channel.send({ embed: embed6 });
 				collector.stop();
 			}
 			if (cmsg.content.toLowerCase() === "yes") {
-				embed7.setDescription(`**${member.user.username}** is now banned. 🔨`)
+				embed7.setDescription(`**${member.user.username}** has been unmuted. 😄`)
 					.setColor("#00FA9A");
 				msg.channel.send({ embed: embed7 });
-				member.ban(reason);
-				embed8.setDescription(`It looks like you've been banned on **${msg.guild.name}** by ${msg.author.username}! 🔨 \n Reason: **${reason}**`)
+				msg.guild.member(msg.author).removeRole(msg.guild.roles.find("name", "Muted")).catch(error => console.log(error));
+				embed8.setDescription(`It looks like you've been unmuted in **${msg.guild.name}** by **${msg.author.username}**! 😄`)
 					.setColor("#00BFFF");
 				member.send({ embed: embed8 });
 				collector.stop();
 			}
 		});
 	});
-}
-;
+};
