@@ -12,6 +12,8 @@ module.exports = async(client, msg, suffix) => {
 		.addField("eval", "Allows you to evaluate JavaScript code. **Developers Only** `?eval [code]`", true)
 		.addField("ban", "Allows you to ban a certain user with a custom reason. `?ban [user] [reason]`", true)
 		.addField("kick", "Allows you to kick a certain user with a custom reason. `?kick [user] [reason]`", true)
+		.addField("mute", "Allows you to mute a mentioned user with a custom reason. `?mute [user] [reason]`", true)
+		.addField("unmute", "Allows you to unmute a mentioned user. `?mute [user]`", true)
 		.setColor("#00BFFF")
 		.setThumbnail(client.user.avatarURL);
 	msg.author.send({ embed });
