@@ -14,6 +14,7 @@ module.exports = async(client, msg, suffix) => {
 		.addField("kick", "Allows you to kick a certain user with a custom reason. `?kick [user] [reason]`", true)
 		.addField("mute", "Allows you to mute a mentioned user with a custom reason. `?mute [user] [reason]`", true)
 		.addField("unmute", "Allows you to unmute a mentioned user. `?mute [user]`", true)
+		.addField("puser", "Allows you to add a premium user. **Developers only** `?puser [user]`", true)
 		.setColor("#00BFFF")
 		.setThumbnail(client.user.avatarURL);
 	msg.author.send({ embed });
