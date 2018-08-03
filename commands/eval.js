@@ -6,7 +6,7 @@ module.exports = async(client, msg, suffix) => {
 		Eval Command by SunburntRock89 (https://github.com/SunburntRock89)
 	*/
 	const embed1 = new Discord.RichEmbed();
-	if (msg.author.id !== "357583052525928449") {
+	if (!settings.maintainers.includes(msg.author.id)) {
 		embed1.setDescription("You don't have permissions to run this command! ⚠️")
 			.setColor("#FF6347");
 		return msg.channel.send({ embed: embed1 });
